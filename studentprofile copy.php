@@ -188,7 +188,15 @@ require('functions.php');
                 const str = $(this).html() === "Show Profile" ? "Hide Profile" : "Show Profile";
                 $(this).html(str);
                 const profile = $(this).parent().next();
+                const studentID = profile.attr("id");
                 profile.toggle();
+                $.ajax({
+                    url: "student.php",
+                    data: "studentID=" + studentID,
+                    success: function() {
+                        profile.load('student.php');
+                    }
+                })
             })
 
             /*  $('#submit').on('click', function(e) {
