@@ -45,3 +45,4 @@ print_r(filter($skillsets, ['user_id', 'instrument'], 2)); */
 
 
 echo updateTable('booked_in_slots', ['user_id', 'start_time', 'end_time', 'day', 'instrument'], ['old 1', 'old 2', 'old 3', 'old 4', 'old 5'], ['new 1', 'new 2', 'new 3', 'new 4', 'new 5'], $conn);
+echo (empty([]) ? "empty" : "not empty");

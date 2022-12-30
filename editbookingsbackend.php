@@ -332,9 +332,15 @@ require('functions.php');
 
                 # updating finance
                 $booked_in_slot_id = fetchID('booked_in_slot_id', [$user_id, $instrument], $conn);
-                $skillset = selectFromTable("SELECT * FROM finance WHERE booked_in_slot_id = '$booked_in_slot_id' AND user_id = '$user_id'", $conn);
-                $oldFee = $skillset['amount'];
-                updateTable('finance', ['booked_in_slot_id', 'user_id', 'amount'], [$booked_in_slot_id, $user_id, $oldFee], [$booked_in_slot_id, $user_id, calculateFee($int_end_minute)], $conn);
+                $booked_in_slots = selectFromTable("SELECT * FROM booked_in_slots WHERE booked_in_slot_id = '$booked_in_slot_id'", $conn);
+                $currentInstrument = $booked_in_slots['instrument'];
+                if (str_contains($currentInstrument, $instrument)) {
+                    $finance = selectFromTable("SELECT * FROM finance WHERE booked_in_slot_id = '$booked_in_slot_id' AND user_id = '$user_id'", $conn);
+                    $oldFee = $finance['amount'];
+                    updateTable('finance', ['booked_in_slot_id', 'user_id', 'amount'], [$booked_in_slot_id, $user_id, $oldFee], [$booked_in_slot_id, $user_id, calculateFee($int_end_minute)], $conn);
+                } else {
+                    insertIntoTable('finance', [$booked_in_slot_id, $user_id, calculateFee($int_end_minute), 0], $conn);
+                }
 
                 //echo "Lesson added!";
                 header('Location: http://' . $_SERVER['HTTP_HOST'] . '/paul%20v3/bookings.php');

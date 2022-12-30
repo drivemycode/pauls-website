@@ -221,7 +221,7 @@ function writeToJSONFile(array $arr, string $fileName)
 }
 
 
-function filter(array $arr, array $arguments, int $count)
+/* function filter(array $arr, array $arguments, int $count)
 {
     if ($count > 0) {
         $array = [];
@@ -238,9 +238,31 @@ function filter(array $arr, array $arguments, int $count)
         }
     }
     return $array;
-}
+} */
 
 function calculateFee(int $lesson_length_minutes)
 {
     return (intval($lesson_length_minutes) / 60) * 500;
+}
+
+/* accepts the instrument desired in string, accepts array of "skillsets" as formatted
+ in database with corresponding instrument levels. 
+
+function processInstrumentLevels(string $instrument, array $skillsets)
+{
+    # data for instrument levels
+    foreach ($skillsets as $skillset) {
+        $instruments = [];
+        switch (trim($instrument)) {
+            case "guitar":
+                array_push($instruments);
+                break;
+        }
+    }
+} */
+
+function getFileType(string $destination)
+{
+    $mime_content_type = mime_content_type($destination);
+    return (explode("/", $mime_content_type)[0]);
 }

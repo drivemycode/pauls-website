@@ -162,9 +162,9 @@ require('functions.php');
                         $finger_exercise_id = fetchID("finger_exercise_id", [$finger_exercise_name], $conn);
                         insertIntoTable('finger_exercise_log', [$finger_exercise_id, $user_id, $booked_in_slot_id, 0, $date], $conn);
                     }
-                    insertIntoTable('skillsets', [$user_id, $instrument, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $conn);
+                    insertIntoTable('skillsets', [$user_id, $instrument, 0], $conn);
                 } else {
-                    insertIntoTable('skillsets', [$user_id, $instrument, null, null, null, null, 0, 0, 0, 0, 0, 0, 0, 0], $conn);
+                    insertIntoTable('skillsets', [$user_id, $instrument, null, null, null, null, 0], $conn);
                 }
 
                 # figuring out lesson fee amount

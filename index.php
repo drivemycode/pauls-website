@@ -43,8 +43,9 @@ require('conn.php');
             }
         } else {
             echo "<a href=\"bookings.php\">Bookings</a>";
-            echo "<a href=\"studentprofile.php\">Student Profiles</a>";
+            echo "<a href=\"students.php\">Student Profiles</a>";
             echo "<a href=\"finance.php\">Finance</a>";
+            echo "<a href=\"lessonfiles.php\">Lesson Files</a>";
         }
     } else {
         echo "<a href=\"register.php\">Register</a>";

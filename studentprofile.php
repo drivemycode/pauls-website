@@ -56,36 +56,6 @@ require('functions.php');
         } else {
             # displaying all student profiles
     ?>
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Edit student profile</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <form id="form-edit" action="post">
-                            <div class="modal-body">
-                                <select class="form-select" aria-label="dropdown">
-                                    <label for="form-select">Student</label>
-                                    <option selected>Try this</option>
-                                    <option id="option1" value="1">Op 1</option>
-                                    <option id="option2" value="2">Op 2</option>
-                                </select>
-                                <select class="form-select" aria-label="dropdown">
-                                    <label for="form-select">Yawn</label>
-                                    <option selected>Try this</option>
-                                    <option id="option3" value="3">Op 3</option>
-                                    <option id="option4" value="4">Op 4</option>
-                                </select>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button id="submit" type="button" class="btn btn-primary">Save changes</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
             <?php
             $students = [];
             $sql = "SELECT * FROM users";
@@ -96,10 +66,6 @@ require('functions.php');
                 array_push($students, ["name" => $name, "id" => $id]);
             };
             // next: fetch data from related student progress tables
-            $skillsets = selectFromTable("SELECT * FROM skillsets", $conn);
-            $songs_learned = selectFromTable("SELECT * FROM songs_learned", $conn);
-            $json = json_encode($skillsets);
-            file_put_contents("data.json", $json);
 
             foreach ($students as $student) {
                 // request student progress stats from mysql
@@ -111,8 +77,8 @@ require('functions.php');
                 print_r($songsjson); */
                 echo "
                 <div id=\"" . $student["id"] . "\" style=\"display: flex;\">
-                <p>" . $student['name'] . "</p>
-                <button class=\"profilebutton\" style=\"height: 50%; margin-left: 5px;\">Show Profile</button>
+                    <p>" . $student['name'] . "</p>
+                    <button class=\"profilebutton\" style=\"height: 50%; margin-left: 5px;\">Show Profile</button>
                 </div>
                 <div class=\"studentprofile\" id=\""  . $student["id"] . "\" style=\"display: none;\">
                 ";
@@ -122,10 +88,9 @@ require('functions.php');
                 </button> -->
 
         <?php
+                echo "<form action=\"studentprofilebackend.php\" method=\"post\"";
                 if (array_key_exists(0, $skillsets)) {
-                    echo "<button type=\"button\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#exampleModal\">
-                    Edit
-                </button>";
+                    echo "<input type=\"submit\" value=\"submit\"/>";
                     echo "<div id=\"skillset\" class=\"studentprofilecell\">";
                     $skillsets_names = array_map("modify", array_keys($skillsets[0]));
                     echo "<h1>Skills acquired</h1>";
@@ -165,9 +130,11 @@ require('functions.php');
                     echo "</div>";
                 } else {
                 }
+                echo "</form>";
 
 
                 // closing div tag for student profile
+
                 echo "</div>";
             }
         }
@@ -190,19 +157,6 @@ require('functions.php');
                 const profile = $(this).parent().next();
                 profile.toggle();
             })
-
-            /*  $('#submit').on('click', function(e) {
-                 e.preventDefault();
-                 const form = $('#form-edit');
-                 const data = form.serialize;
-                 $.ajax({
-                     url: 'editstudentprofile.php',
-                     data: data,
-                     success: function() {
-                         $('#edit').load('editstudentprofile.php');
-                     }
-                 })
-             }) */
         })
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
